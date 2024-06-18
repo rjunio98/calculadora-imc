@@ -13,6 +13,7 @@ function App() {
             <Input
               type="text"
               id="weight"
+              className="mt-1"
             />
           </div>
 
@@ -21,6 +22,7 @@ function App() {
             <Input
               type="text"
               id="height"
+              className="mt-1"
             />
           </div>
           <Button type="submit">Calcular</Button>
