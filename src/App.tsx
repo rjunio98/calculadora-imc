@@ -4,13 +4,46 @@ import Label from "./components/Label";
 import ReferenceTable from "./components/ReferenceTable";
 
 function App() {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData) as {
+      weight: string;
+      height: string;
+    };
+
+    const { weight, height } = data;
+    if (!weight || !height) {
+      alert("Ops.. você precisa preencher todos os campos");
+      return;
+    }
+
+    const weightNumber = parseFloat(weight.replace(",", "."));
+    const heightNumber = parseFloat(height.replace(",", ".")) / 100;
+
+    if (isNaN(weightNumber) || isNaN(heightNumber)) {
+      alert("Ops... você precisa preencher os campos com números válidos");
+      return;
+    }
+
+    if (weightNumber < 2 || weightNumber > 500) {
+      alert("Ops... o peso precisa ser maior que 2kg e menor que 500kg");
+    }
+
+    if (heightNumber < 0.5 || heightNumber > 2.5) {
+      alert("Ops... a altura precisa ser maior que 50cm e menor que 2.5m");
+    }
+  }
+
   return (
     <main className="bg-white max-w-4xl mx-auto py-24 px-48">
       <section id="form">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div>
             <Label htmlFor="weight">Peso (kg)</Label>
             <Input
+              name="weight"
               type="text"
               id="weight"
               className="mt-1"
@@ -20,6 +53,7 @@ function App() {
           <div className="mt-4">
             <Label htmlFor="height">Altura (cm)</Label>
             <Input
+              name="height"
               type="text"
               id="height"
               className="mt-1"
