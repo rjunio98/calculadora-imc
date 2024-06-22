@@ -4,7 +4,6 @@ import Input from "./components/Input";
 import Label from "./components/Label";
 import ReferenceTable from "./components/ReferenceTable";
 import { IMCResult, calculateIMC } from "./lib/IMC";
-import { formatNumber } from "./lib/utils";
 import ResultsTable from "./components/ResultsTable";
 
 function App() {
@@ -55,6 +54,13 @@ function App() {
       IMC: IMC,
       IMCResult: IMCResultString,
     });
+
+    e.currentTarget.reset();
+  }
+
+  function handleClickReset(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    setIMCData(null);
   }
 
   return (
@@ -64,6 +70,7 @@ function App() {
           <div>
             <Label htmlFor="weight">Peso (kg)</Label>
             <Input
+              disabled={!!IMCData}
               name="weight"
               type="text"
               id="weight"
@@ -74,13 +81,23 @@ function App() {
           <div className="mt-4">
             <Label htmlFor="height">Altura (cm)</Label>
             <Input
+              disabled={!!IMCData}
               name="height"
               type="text"
               id="height"
               className="mt-1"
             />
           </div>
-          <Button type="submit">Calcular</Button>
+          {IMCData ? (
+            <Button
+              onClick={handleClickReset}
+              type="button"
+            >
+              Refazer
+            </Button>
+          ) : (
+            <Button type="submit">Calcular</Button>
+          )}
         </form>
       </section>
 
